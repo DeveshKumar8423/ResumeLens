@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Luxury Resume Screening AI System</title>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+
+        /* Luxurious Theme Colors */
+        .luxury-blue {
+            background-color: #1a1a40; /* Deep blue background */
+        }
+
+        .luxury-gold {
+            color: #d4af37; /* Gold text color */
+        }
+
+        .luxury-bg {
+            background-color: #f5f5f5; /* Light background color */
+        }
+
+        .luxury-container {
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 30px;
+            background-color: #fff;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Header Section */
+        .header {
+            background-color: #1a1a40;
+            color: white;
+            text-align: center;
+            padding: 50px 0;
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 36px;
+            font-weight: 600;
+            letter-spacing: 2px;
+        }
+
+        .header p {
+            font-size: 18px;
+            margin-top: 10px;
+            color: #ccc;
+        }
+
+        .header ul {
+            list-style: none;
+            padding: 0;
+            font-size: 18px;
+            color: #ccc;
+        }
+
+        .header ul li {
+            display: inline-block;
+            margin: 10px 20px;
+        }
+
+        /* Form Section */
+        h2 {
+            color: #1a1a40;
+            text-align: center;
+            font-size: 28px;
+            margin-bottom: 20px;
+        }
+
+        .luxury-form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
+
+        input[type="file"] {
+            margin: 10px 0;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        input[type="submit"] {
+            background-color: #d4af37;
+            color: #1a1a40;
+            border: none;
+            padding: 15px 30px;
+            font-size: 18px;
+            font-weight: bold;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #c89f2a;
+        }
+
+        /* Information Section */
+        .info-section {
+            margin-top: 40px;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.08);
+        }
+
+        .info-section p {
+            color: #333;
+            font-size: 16px;
+            padding: 5px;
+        }
+
+        .info-section .info-title {
+            font-size: 22px;
+            font-weight: bold;
+            color: #1a1a40;
+            margin-bottom: 15px;
+        }
+
+        /* Skills and Education List */
+        .skills-list, .education-list {
+            list-style-type: none;
+            padding: 0;
+            margin: 10px 0;
+        }
+
+        .skills-list li, .education-list li {
+            background: #f4f4f4;
+            padding: 10px;
+            margin: 5px 0;
+            border-radius: 5px;
+            font-size: 16px;
+            color: #333;
+            border: 1px solid #ddd;
+        }
+
+        /* Footer Section */
+        .footer {
+            text-align: center;
+            margin-top: 50px;
+            padding: 20px;
+            background-color: #1a1a40;
+            color: white;
+        }
+
+        .footer p {
+            margin: 0;
+            font-size: 14px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Luxurious Header Section -->
+    <div class="header luxury-blue">
+        <h1 class="luxury-gold">Resume Screening AI System</h1>
+        <p>Your Gateway to Efficient Job Recommendations</p>
+        <ul>
+            <li>Resume Categorization</li>
+            <li>Resume Job Recommendation</li>
+            <li>Resume Parsing</li>
+        </ul>
+    </div>
+
+    <!-- Upload Section -->
+    <div class="luxury-container">
+        <h2>Upload Your Resume</h2>
+        <form class="luxury-form" action="/pred" method="post" enctype="multipart/form-data">
+            <input type="file" name="resume" accept=".pdf, .txt" required>
+            <input type="submit" value="Submit">
+        </form>
+
+        {% if message %}
+        <p class="text-center">{{message}}</p>
+        {% endif %}
+
+        <!-- Information Extraction Section -->
+        {% if predicted_category %}
+        <div class="info-section">
+            <p class="info-title">Category: {{predicted_category}}</p>
+            <p class="info-title">Recommended Job: {{recommended_job}}</p>
+
+            <h3>Extracted Information</h3>
+            <p><strong>Name:</strong> {{name}}</p>
+            <p><strong>Phone No:</strong> {{phone}}</p>
+            <p><strong>Email:</strong> {{email}}</p>
+
+            {% if extracted_skills %}
+            <h3>Skills</h3>
+            <ul class="skills-list">
+                {% for skill in extracted_skills %}
+                <li>{{ skill }}</li>
+                {% endfor %}
+            </ul>
+            {% else %}
+            <p>No skills found.</p>
+            {% endif %}
+
+            {% if extracted_education %}
+            <h3>Education</h3>
+            <ul class="education-list">
+                {% for edu in extracted_education %}
+                <li>{{ edu }}</li>
+                {% endfor %}
+            </ul>
+            {% else %}
+            <p>No education found.</p>
+            {% endif %}
+        </div>
+        {% endif %}
+    </div>
+
+    <!-- Footer Section -->
+    <div class="footer luxury-blue">
+        <p>&copy; 2024 Resume Screening AI System. All rights reserved.</p>
+    </div>
+
+</body>
+</html>
